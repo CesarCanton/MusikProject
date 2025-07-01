@@ -1,11 +1,9 @@
 import React from "react";
 import "../App.css";
 import styled from "styled-components";
-import { Link, BrowserRouter, Route, Routes } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { FaHome } from "react-icons/fa";
-import { MdPadding } from "react-icons/md";
-import { LuSearch } from "react-icons/lu";
-import { FaSearch } from "react-icons/fa";
+
 
 const NavContainer = styled.header`
 	background-color: var(--color-principal-opaco);
@@ -29,7 +27,6 @@ const TitleHeader = styled.h1`
 `;
 const HomeIcon = styled(FaHome)`
 	font-size: 1.5rem;
-	margin: 0.5rem;
 	color: var(--color-secundario);
 `;
 const ItemNav = styled.li`
@@ -37,12 +34,11 @@ const ItemNav = styled.li`
 	margin: 0 1rem;
 	padding: 0.5rem;
 	text-decoration: none;
-	font-size:1rem;
+	font-size: 1rem;
 	&:hover {
 		background: var(--color-secundario-opaco);
 		border-radius: 1rem;
 	}
-	
 `;
 
 const ItemSearch = styled.div`
@@ -56,11 +52,13 @@ const BtnRegister = styled.button`
 	color: var(--color-principal);
 	border: none;
 	border-radius: 1rem;
-	/* padding: 1rem 1rem; */
 	display: inline-block;
 	margin: 0 1.5rem;
 	text-decoration: none;
-
+	transition: background 0.2s;
+	&:hover {
+		background: var(--color-secundario-opaco, #ffffff8a);
+	}
 `;
 
 const InputSearch = styled.input`
@@ -72,16 +70,16 @@ const InputSearch = styled.input`
 
 export default function NavBar() {
 	return (
-		<BrowserRouter>
+		<>
 			<NavContainer>
-				<TitleHeader>Kodigo Music</TitleHeader>
+				<TitleHeader>
+					<Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
+						Kodigo Music
+					</Link>
+				</TitleHeader>
 				<nav>
 					<ul>
-						<ItemNav>
-							<HomeIcon></HomeIcon>
-						</ItemNav>
 						<ItemSearch>
-							
 							<InputSearch></InputSearch>
 						</ItemSearch>
 						<ItemNav>
@@ -94,14 +92,20 @@ export default function NavBar() {
 							<p>Descargar</p>
 						</ItemNav>
 						<ItemNav>
-							<p>Iniciar Sesion</p>
+							<Link
+								to="/login"
+								style={{ color: "inherit", textDecoration: "none" }}
+							>
+								Iniciar Sesion
+							</Link>
 						</ItemNav>
-							<BtnRegister>
-								Registrarse
-							</BtnRegister>
+							<Link to="/register" style={{ textDecoration: "none" }}>
+							<BtnRegister>Registrarse</BtnRegister>
+							</Link>
+						
 					</ul>
 				</nav>
 			</NavContainer>
-		</BrowserRouter>
+			</>
 	);
 }

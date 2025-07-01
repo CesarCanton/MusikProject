@@ -1,23 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import FormUser from './components/FormUser'
-import SideBar from './components/SideBar'
-import MainScreen from './components/MainScreen'
-import NavBar from './components/NavBar'
+import { useState } from "react";
+import "./App.css";
+import MainScreen from "./components/MainScreen";
+import NavBar from "./components/NavBar";
+import Login from "./components/Login";
+import RegisterForm from "./components/RegisterForm";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [count, setCount] = useState(0);
 
-  return (
-    <>
-<MainScreen />
-
-
-    
-    </>
-  )
+	return (
+<BrowserRouter>
+      
+      <Routes>
+        
+        <Route
+          path="/"
+          element={
+            <>
+              <NavBar />
+              <MainScreen />
+            </>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<RegisterForm />} />
+      </Routes>
+    </BrowserRouter>
+	);
 }
 
-export default App
+export default App;
