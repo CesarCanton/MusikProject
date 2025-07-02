@@ -10,6 +10,12 @@ const Card = styled.div`
   align-items: center;
   margin: 1rem;
   border: 1px solid var(--color-secundario-opaco);
+  @media (max-width: 600px) {
+    width: 140px;
+    margin: 0.5rem;
+    padding: 0.5rem;
+  }
+
 `;
 
 const SongImage = styled.img`
@@ -18,7 +24,10 @@ const SongImage = styled.img`
   border-radius: 1rem;
   object-fit: cover;
   margin-bottom: 1rem;
-  /* border: 2px solid var(--color-secundario-opaco); */
+@media (max-width: 600px) {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 const SongTitle = styled.h3`

@@ -18,6 +18,9 @@ const SidebarContainer = styled.aside`
   flex-direction: column;
   padding-top: 4rem;
   z-index: 100;
+    @media (max-width: 900px) {
+    display: none;
+  }
 `;
 const StyledIcon = styled.span`
   font-size: 1.2rem;

@@ -19,6 +19,18 @@ const MainContainer = styled.main`
 	min-height: 100vh;
 	overflow-y: auto;
 	box-sizing: border-box;
+
+	 @media (max-width: 900px) {
+    margin-left: 0;
+    margin-top: 90px;
+    width: 100vw;
+    border-radius: 0;
+    padding: 0.5rem;
+  }
+  @media (max-width: 600px) {
+    margin-top: 70px;
+    padding: 0.2rem;
+  }
 `;
 const SectionTitle = styled.h2`
 	font-size: 1.5rem;
@@ -46,6 +58,12 @@ const CarouselContainer = styled.div`
 		background: var(--color-secundario);
 		border-radius: 4px;
 	}
+
+	@media (max-width: 600px) {
+    gap: 0.5rem;
+    padding: 0.2rem;
+    margin: 0;
+  }
 `;
 
 export default function MainScreen() {

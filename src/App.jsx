@@ -10,23 +10,21 @@ function App() {
 	const [count, setCount] = useState(0);
 
 	return (
-<BrowserRouter>
-      
-      <Routes>
-        
-        <Route
-          path="/"
-          element={
-            <>
-              <NavBar />
-              <MainScreen />
-            </>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<RegisterForm />} />
-      </Routes>
-    </BrowserRouter>
+		<BrowserRouter>
+			<Routes>
+				<Route
+					path="/"
+					element={
+						<>
+							<NavBar />
+							<MainScreen />
+						</>
+					}
+				/>
+				<Route path="/login" element={<Login />} />
+				<Route path="/register" element={<RegisterForm />} />
+			</Routes>
+		</BrowserRouter>
 	);
 }
 
