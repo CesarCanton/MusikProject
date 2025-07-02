@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../App.css";
 import styled from "styled-components";
 import { Link} from "react-router-dom";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { FaHome } from "react-icons/fa";
+
 
 
 const NavContainer = styled.header`
@@ -69,6 +71,21 @@ const InputSearch = styled.input`
 `;
 
 export default function NavBar() {
+	 const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const auth = getAuth();
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+        });
+        return () => unsubscribe();
+    }, []);
+
+    const handleLogout = () => {
+        const auth = getAuth();
+        signOut(auth);
+    };
+
 	return (
 		<>
 			<NavContainer>
@@ -91,17 +108,33 @@ export default function NavBar() {
 						<ItemNav>
 							<p>Descargar</p>
 						</ItemNav>
-						<ItemNav>
-							<Link
-								to="/login"
-								style={{ color: "inherit", textDecoration: "none" }}
-							>
-								Iniciar Sesion
-							</Link>
-						</ItemNav>
-							<Link to="/register" style={{ textDecoration: "none" }}>
-							<BtnRegister>Registrarse</BtnRegister>
-							</Link>
+						{!user && (
+                            <>
+                                <ItemNav>
+                                    <Link
+                                        to="/login"
+                                        style={{ color: "inherit", textDecoration: "none" }}
+                                    >
+                                        Iniciar Sesion
+                                    </Link>
+                                </ItemNav>
+                                <Link to="/register" style={{ textDecoration: "none" }}>
+                                    <BtnRegister>Registrarse</BtnRegister>
+                                </Link>
+                            </>
+                        )}
+                        {user && (
+							<>
+                            <ItemNav>
+                                <span style={{ color: "var(--color-secundario)" }}>
+                                    {user.email}
+                                </span>
+								 </ItemNav>
+                                <BtnRegister onClick={handleLogout} style={{ marginLeft: "1rem" }}>
+                                    Cerrar sesión
+                                </BtnRegister>
+                           </>
+                        )}
 						
 					</ul>
 				</nav>

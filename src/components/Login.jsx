@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import '../App.css';
 import styled from "styled-components";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const LoginContainer = styled.div`
     min-height: 100vh;
@@ -8,7 +10,7 @@ const LoginContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-principal, #fff); // Opcional, para ver el área
+    background: var(--color-principal, #fff);
     box-sizing: border-box;
 `;
 const LoginFormContainer = styled.div`
@@ -25,7 +27,6 @@ const LoginFormContainer = styled.div`
         text-align: center;
         font-size: 1.5rem;
     }
-
 `;
 
 const LoginForm = styled.form`
@@ -55,16 +56,57 @@ const Button = styled.button`
         background: var(--color-secundario-opaco, #444);
     }
 `;
+
 export default function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError("");
+        const auth = getAuth();
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            navigate("/"); 
+        } catch (err) {
+            setError("Correo o contraseña incorrectos.");
+        }
+    };
+
     return (
         <LoginContainer>
             <LoginFormContainer>
                 <h1>Iniciar Sesión</h1>
-                <LoginForm>
-                    <Input type="email" placeholder="Correo electrónico" required />
-                    <Input type="password" placeholder="Contraseña" required />
+                <LoginForm onSubmit={handleSubmit}>
+                    <Input
+                        type="email"
+                        placeholder="Correo electrónico"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        required
+                    />
+                    <Input
+                        type="password"
+                        placeholder="Contraseña"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        required
+                    />
                     <Button type="submit">Entrar</Button>
+                    {error && <p style={{ color: "red" }}>{error}</p>}
+
+                    
                 </LoginForm>
+                <h5 style={{marginTop:"0.5rem"}}>¿No tienes cuenta?</h5>
+                    <Button
+                    type="button"
+                    style={{ background: "transparent", color: "var(--color-secundario)", border: "none", textDecoration: "underline" }}
+                    onClick={() => navigate("/register")}
+                >
+                    Regístrate aquí
+                </Button>
             </LoginFormContainer>
         </LoginContainer>
     );

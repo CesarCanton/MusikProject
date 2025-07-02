@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import "../App.css";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { dbStore } from "../firebase/appConfig";
+import { Navigate, useNavigate } from "react-router-dom";
+
+
+
 
 const RegisterContainer = styled.div`
 	min-height: 100vh;
@@ -55,16 +61,62 @@ const Button = styled.button`
 `;
 
 export default function RegisterForm() {
-	return (
-		<RegisterContainer>
-			<RegisterFormContainer>
+ const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+	const navigate = useNavigate();
+
+	const handleSubmit =  (e) => {
+        e.preventDefault();
+        setError("");
+        setSuccess("");
+        const auth = getAuth();
+        try {
+            createUserWithEmailAndPassword(auth, email, password);
+            setSuccess("Usuario creado exitosamente.");
+			 setTimeout(() => {
+                navigate("/login"); 
+            }, 1000); 
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+
+
+ return (
+        <RegisterContainer>
+            <RegisterFormContainer>
                 <h1>Registrarse</h1>
-				<RegisterFormLayout>
-					<Input type="email" placeholder="Correo electrónico" required />
-					<Input type="password" placeholder="Contraseña" required />
-					<Button type="submit">Entrar</Button>
-				</RegisterFormLayout>
-			</RegisterFormContainer>
-		</RegisterContainer>
-	);
+                <RegisterFormLayout onSubmit={handleSubmit}>
+                    <Input
+                        type="email"
+                        placeholder="Correo electrónico"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                    <Input
+                        type="password"
+                        placeholder="Contraseña"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <Button type="submit">Registrar</Button>
+                    {error && <p style={{ color: "red" }}>{error}</p>}
+                    {success && <p style={{ color: "green" }}>{success}</p>}
+                </RegisterFormLayout>
+				<h5 style={{marginTop:"0.5rem"}}>¿Ya tienes una cuenta?</h5>
+                    <Button
+                    type="button"
+                    style={{ background: "transparent", color: "var(--color-secundario)", border: "none", textDecoration: "underline" }}
+                    onClick={() => navigate("/login")}
+                >
+                    Inicia sesion aqui
+                </Button>
+            </RegisterFormContainer>
+        </RegisterContainer>
+    );
 }
